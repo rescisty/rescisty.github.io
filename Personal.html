@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doodle Neon Site</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+      transition: background 0.3s;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* HOME SCREEN */
+    #home {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      transition: opacity 0.4s ease;
+    }
+
+    #home.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* DOODLE */
+    #doodle {
+      width: 140px;
+      height: 140px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    #doodle svg {
+      width: 140px;
+      height: 140px;
+      animation: wobble 2s infinite ease-in-out;
+    }
+
+    @keyframes wobble {
+      0% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.02) rotate(1deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .eye {
+      width: 25px;
+      height: 25px;
+      background: black;
+      border-radius: 50%;
+      position: absolute;
+      top: 35px;
+    }
+
+    .eye.left { left: 25px; }
+    .eye.right { right: 25px; }
+
+    .pupil {
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 7px;
+      left: 7px;
+      transition: transform 0.05s;
+    }
+
+    .mouth {
+      width: 20px;
+      height: 30px;
+      border: 3px solid white;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* MAIN CONTENT */
+    #content {
+      display: none;
+      flex: 1;
+      height: 100vh;
+      display: flex;
+    }
+
+    #content.active {
+      display: flex;
+    }
+
+    /* LEFT MENU */
+    #menu {
+      width: 250px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .menu-item {
+      padding: 15px 20px;
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: bold;
+      color: orange;
+      text-shadow: 0 0 5px orange, 0 0 10px orange, 0 0 20px orange;
+      border-radius: 10px;
+      transition: 0.2s;
+      background: #222;
+    }
+
+    .menu-item:hover {
+      background: #333;
+      transform: translateX(5px);
+    }
+
+    .hidden { display: none; }
+
+    /* RIGHT CONTENT */
+    #pages {
+      flex: 1;
+      position: relative;
+      padding: 40px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home">
+  <div id="doodle">
+    <svg viewBox="0 0 200 200">
+      <path id="blob"
+        d="M100,20 Q140,40 160,100 Q140,160 100,180 Q60,160 40,100 Q60,40 100,20"
+        fill="none"
+        stroke="white"
+        stroke-width="3"/>
+    </svg>
+    <div class="eye left"><div class="pupil"></div></div>
+    <div class="eye right"><div class="pupil"></div></div>
+    <div class="mouth"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+  <div id="menu">
+    <div class="menu-item" onclick="openPage('about')">About Me</div>
+    <div class="menu-item" onclick="openPage('hobbies')">Hobbies</div>
+    <div class="menu-item" onclick="openPage('status')">Status</div>
+    <div class="menu-item hidden" id="hiddenBtn" onclick="openPage('hidden')">???</div>
+  </div>
+
+  <div id="pages">
+    <div id="about" class="page">About me page</div>
+    <div id="hobbies" class="page">Hobbies page</div>
+    <div id="status" class="page">Status page</div>
+    <div id="hidden" class="page">Secret 👁️</div>
+  </div>
+</div>
+
+<script>
+  const doodle = document.getElementById("doodle");
+  const home = document.getElementById("home");
+  const content = document.getElementById("content");
+
+  doodle.onclick = () => {
+    home.classList.add("hidden");
+    setTimeout(() => {
+      home.style.display = "none";
+      content.classList.add("active");
+    }, 400);
+  };
+
+  // Eye tracking + mouth physics
+  document.addEventListener("mousemove", (e) => {
+    document.querySelectorAll(".eye").forEach(eye => {
+      const rect = eye.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      const angle = Math.atan2(e.clientY - y, e.clientX - x);
+      const pupil = eye.querySelector(".pupil");
+      const moveX = Math.cos(angle) * 5;
+      const moveY = Math.sin(angle) * 5;
+      pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    const rect = doodle.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const dx = e.clientX - centerX;
+    const mouth = document.querySelector(".mouth");
+    const stretchY = Math.min(Math.abs(dx) / 20, 10);
+    mouth.style.transform = `translateX(-50%) scale(1, ${1 + stretchY * 0.05})`;
+  });
+
+  // Page system
+  const visited = { about: false, hobbies: false, status: false };
+
+  function openPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(page).classList.add('active');
+
+    if (visited.hasOwnProperty(page)) {
+      visited[page] = true;
+      checkUnlock();
+    }
+  }
+
+  function checkUnlock() {
+    if (visited.about && visited.hobbies && visited.status) {
+      document.getElementById("hiddenBtn").classList.remove("hidden");
+    }
+  }
+</script>
+
+</body>
+</html>
