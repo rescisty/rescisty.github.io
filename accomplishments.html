@@ -123,6 +123,11 @@
       document.getElementById('page-transition').classList.remove('reveal');
       setTimeout(() => window.location.href = 'home.html', 700);
     });
+
+    // Reset overlay state when using browser back button
+    window.addEventListener('popstate', () => {
+      document.getElementById('page-transition').classList.remove('go');
+    });
   </script>
 </body>
 </html>
