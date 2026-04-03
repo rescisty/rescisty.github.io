@@ -105,23 +105,17 @@
       el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
     });
-
-    // Entrance reveal - add immediately and on visibility change
     function revealPage() {
       document.getElementById('page-transition').classList.add('reveal');
     }
     
     // Reveal on load
     window.addEventListener('load', revealPage);
-    
-    // Also reveal if page becomes visible (handles back button)
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
         revealPage();
       }
     });
-    
-    // Reveal immediately in case it's already loaded
     revealPage();
 
     document.getElementById('back-btn').addEventListener('click', function(e) {
