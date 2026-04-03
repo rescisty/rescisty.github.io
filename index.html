@@ -285,6 +285,11 @@
       // Draw first frame immediately, then start loop
       draw();
       update();
+
+      // Reset overlay state when using browser back button
+      window.addEventListener('popstate', () => {
+        document.getElementById('door-overlay').classList.add('open');
+      });
     });
   </script>
 
