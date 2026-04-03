@@ -106,7 +106,7 @@
     document.getElementById('back-btn').addEventListener('click', function(e) {
       e.preventDefault();
       document.getElementById('page-transition').classList.remove('reveal');
-      setTimeout(() => window.history.back(), 700);
+      setTimeout(() => window.location.href = 'home.html', 700);
     });
 
     document.querySelector('.wordmark').addEventListener('click', function(e) {
