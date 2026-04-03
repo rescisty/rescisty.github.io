@@ -1,0 +1,118 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>rescisty — rescisty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,200;0,300;0,400;1,200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared-page.css">
+  </head>
+  <body>
+
+
+    <div id="custom-cursor"></div>
+    <div id="page-transition"></div>
+
+    <header id="topbar">
+      <a class="wordmark" href="home.html">rescisty</a>
+      <a id="back-btn" href="home.html">back</a>
+    </header>
+
+    <main id="page-content">
+      <div class="page-header">
+        <p class="page-label">01 — rescisty</p>
+        <h1 class="page-title">rescisty</h1>
+      </div>
+
+      <div class="section">
+        <p class="section-label">what is this?</p>
+        <div class="body-text">
+          <p>rescisty is a user often recognized for their unique personality, humor, and online presence on platforms similar to discord, reddit, and instagram. They have fostered a community around shared interests and university connections.</p>
+          <p>This is where ideas are made, kept, and stored. Join him in exploring a creative foundation of intentional design and meaningful interaction. This website serves as a digital notebook for ideas and future projects.</p>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="section">
+        <p class="section-label">the idea</p>
+        <div class="body-text">
+          <p>A corner of the internet that feels personal — not personal as in intimate oversharing, but personal as in: you can feel a human made it. Every piece intentional. Every word chosen. Every part necessary.</p>
+          <p>Lets dive into a creative journey together. </p>
+        </div>
+      </div>
+
+          <hr class="divider">
+      
+      <div class="accomplishments">
+        <p class="section-label">hobbies</p>
+        <div class="body-text">
+          <p>Community Fostering - Active Owner of MSCC</p>
+          <p>Novice Developer - Personal Projects/Active Studies</p>
+          <p>Gamer - Active Competitive Gamer</p>
+        </div>
+      </div>
+
+      <hr class ="divider">
+
+      <div class="tags">
+        <span class="tag">identity</span>
+        <span class="tag">craft</span>
+        <span class="tag">internet</span>
+        <span class="tag">made with intent</span>
+      </div>
+    </main>
+
+    <script>
+      // Mark this page as visited
+      const readItems = new Set(JSON.parse(localStorage.getItem('readItems') || '[]'));
+      readItems.add('rescisty');
+      localStorage.setItem('readItems', JSON.stringify([...readItems]));
+
+      const cursor = document.getElementById('custom-cursor');
+      window.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      // Cursor expansion on hover for interactive elements
+      const interactiveElements = document.querySelectorAll('#back-btn, .wordmark');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+      });
+
+      // Entrance reveal - add immediately and on visibility change
+      function revealPage() {
+        document.getElementById('page-transition').classList.add('reveal');
+      }
+      
+      // Reveal on load
+      window.addEventListener('load', revealPage);
+      
+      // Also reveal if page becomes visible (handles back button)
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          revealPage();
+        }
+      });
+      
+      // Reveal immediately in case it's already loaded
+      revealPage();
+
+      // Back button transition
+      document.getElementById('back-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('page-transition').classList.remove('reveal');
+        setTimeout(() => window.history.back(), 700);
+      });
+
+      document.querySelector('.wordmark').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('page-transition').classList.remove('reveal');
+        setTimeout(() => window.location.href = 'home.html', 700);
+      });
+    </script>
+  </body>
+  </html>
