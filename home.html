@@ -367,6 +367,11 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
+
+    // Reset overlay state when using browser back button
+    window.addEventListener('popstate', () => {
+      document.getElementById('page-transition').classList.remove('go');
+    });
   </script>
 </body>
 </html>
