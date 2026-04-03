@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>rescisty — accomplishments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,200;0,300;0,400;1,200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared-page.css">
+  <style>
+    *, *::before, *::after { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+        cursor: none !important; 
+    }
+    .entry {
+      animation-delay: calc(0.08s * var(--i));
+    }
+  </style>
+</head>
+<body>
+  <div id="custom-cursor"></div>
+  <div id="page-transition"></div>
+
+  <header id="topbar">
+    <a class="wordmark" href="home.html">rescisty</a>
+    <a id="back-btn" href="home.html">back</a>
+  </header>
+
+  <main id="page-content">
+    <div class="page-header">
+      <p class="page-label">03 — accomplishments</p>
+      <h1 class="page-title">things<br>done</h1>
+    </div>
+
+    <div class="entry-list">
+
+      <div class="entry" style="--i:1">
+        <span class="entry-year">2024</span>
+        <div>
+          <p class="entry-title">Built first full-stack project</p>
+          <p class="entry-desc">Designed and shipped a complete web application from scratch — backend, frontend, deployment. The whole thing.</p>
+        </div>
+      </div>
+
+      <div class="entry" style="--i:2">
+        <span class="entry-year">2024</span>
+        <div>
+          <p class="entry-title">Developed a personal design system</p>
+          <p class="entry-desc">Created reusable components, tokens, and guidelines for consistent work across projects.</p>
+        </div>
+      </div>
+
+      <div class="entry" style="--i:3">
+        <span class="entry-year">2023</span>
+        <div>
+          <p class="entry-title">Started writing publicly</p>
+          <p class="entry-desc">Committed to putting thoughts out in the open. Shorter pieces, longer essays — whatever felt necessary.</p>
+        </div>
+      </div>
+
+      <div class="entry" style="--i:4">
+        <span class="entry-year">2023</span>
+        <div>
+          <p class="entry-title">Learned motion design fundamentals</p>
+          <p class="entry-desc">Studied the principles of timing, easing, and spatial transitions. Started applying them to every interface.</p>
+        </div>
+      </div>
+
+      <div class="entry" style="--i:5">
+        <span class="entry-year">2022</span>
+        <div>
+          <p class="entry-title">Shipped first open source contribution</p>
+          <p class="entry-desc">Small fix that actually mattered. Understood the value of doing work that others can build on.</p>
+        </div>
+      </div>
+
+      <div class="entry" style="--i:6">
+        <span class="entry-year">ongoing</span>
+        <div>
+          <p class="entry-title">This website</p>
+          <p class="entry-desc">A personal corner of the internet that's actually personal. In progress, as it should be.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Mark this page as visited
+    const readItems = new Set(JSON.parse(localStorage.getItem('readItems') || '[]'));
+    readItems.add('accomplishments');
+    localStorage.setItem('readItems', JSON.stringify([...readItems]));
+
+    const cursor = document.getElementById('custom-cursor');
+    window.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    // Cursor expansion on hover for interactive elements
+    const interactiveElements = document.querySelectorAll('#back-btn, .wordmark');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+    });
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('page-transition').classList.add('reveal');
+      }, 50);
+    });
+
+    document.getElementById('back-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('page-transition').classList.remove('reveal');
+      setTimeout(() => window.location.href = 'home.html', 700);
+    });
+
+    document.querySelector('.wordmark').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('page-transition').classList.remove('reveal');
+      setTimeout(() => window.location.href = 'home.html', 700);
+    });
+  </script>
+</body>
+</html>
